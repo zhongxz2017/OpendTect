@@ -300,7 +300,14 @@ bool uiODApplMgr::Convert_OD4_Body_To_OD5()
     return true;
 }
 
+int uiODApplMgr::CreateNewSurvey( uiParent* p )
+{
+	const int res = manSurv(p);
 
+	if (res == 3)
+		setZStretch();
+	return res;
+}
 
 
 int uiODApplMgr::selectSurvey( uiParent* p )

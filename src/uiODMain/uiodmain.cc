@@ -71,7 +71,7 @@ ________________________________________________________________________
 #include "hiddenparam.h"
 
 #include <iostream>
-
+#include "msgh.h"
 
 extern "C" {
 
@@ -104,13 +104,25 @@ static void checkScreenRes()
 {
     uiMain& uimain = uiMain::theMain();
     const int nrscreens = uimain.nrScreens();
+    qDebug() << "checkScreenRes nrscreens: " << nrscreens;
+
+    QString t_msg = "checkScreenRes nrscreens: ";
+    t_msg += QString::number(nrscreens);
+
+    UsrMsg(t_msg.toLatin1().data());
 
     bool anyacceptable = false, anysubstd = false, anyok = false,
 	 needscale = false;
+    QString scan_msg = " scan scerrn res: ";
     for ( int idx=0; idx<nrscreens; idx++ )
     {
 	const uiSize sz( uimain.getScreenSize(idx,true) );
 	const double devpixrat = uimain.getDevicePixelRatio(idx);
+    t_msg = scan_msg + QString::number(idx) + " "
+        + QString::number(sz.height()) + " "
+        + QString::number(sz.width()) + " "
+        + QString::number(devpixrat);
+    UsrMsg(t_msg.toLatin1().data());
 	if ( sz.height() < cScreenLowRes )
 	{
 	    anysubstd = true;
@@ -133,6 +145,9 @@ static void checkScreenRes()
     Settings& setts = Settings::common();
     bool dontshowagain = false;
     const uiString& es = uiString::emptyString();
+    scan_msg = "show status: ";
+    t_msg = scan_msg + QString::number(anyacceptable) + QString::number(anyok) + QString::number(anysubstd) + QString::number(dontshowagain);
+    UsrMsg(t_msg.toLatin1().data());
     if ( !anyacceptable )
     {
 	if ( !setts.isFalse(sKeyShowLowRes) )
@@ -190,9 +205,12 @@ static void checkScreenRes()
 		    .arg( cScreenSubRes ), es, es, true );
     }
 
+    t_msg = scan_msg + QString::number(anyacceptable) + QString::number(anyok) + QString::number(anysubstd) + QString::number(dontshowagain);
+    UsrMsg(t_msg.toLatin1().data());
+
     if ( dontshowagain )
     {
-	const char* ky = !anyacceptable ? sKeyShowLowRes : sKeyShowSubRes;
+	const char* ky = anyacceptable ? sKeyShowLowRes : sKeyShowSubRes;
 	setts.setYN( ky, false );
 	setts.write();
     }
@@ -281,7 +299,8 @@ uiODMain::uiODMain( uiMain& a )
     , sessionRestoreEarly(this)
     , sessionRestore(this)
     , justBeforeGo(this)
-    , programname_( "OpendTect" )
+    , programname_( "GeoDetect" )
+    , m_specify_version( "1.0.1" )
 {
     odmainproginfomgr_.setParam( this, new BufferString );
     hp_odmainexitmgr_.setParam( this, new Notifier<uiODMain>(this) );
@@ -921,7 +940,7 @@ void uiODMain::closeApplication()
 
 uiString uiODMain::getProgramString() const
 {
-    return toUiString( "%1 V%2" ).arg( programname_ ).arg( GetFullODVersion() );
+    return toUiString( "%1 V%2" ).arg( programname_ ).arg( m_specify_version.buf() /*GetFullODVersion() */ );
 }
 
 

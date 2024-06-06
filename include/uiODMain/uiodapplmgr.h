@@ -84,7 +84,9 @@ public:
     uiApplService&		applService()
 				{ return (uiApplService&)applservice_; }
 
-
+    // ADD by lynn
+    int CreateNewSurvey(uiParent*);
+    // ADD end
     // Survey menu operations
     int				selectSurvey(uiParent*);
     static int			manageSurvey()		{ return manSurv(0); }
