@@ -337,7 +337,8 @@ int uiODApplMgr::manSurv( uiParent* p, int att)
 	uiSurvey dlg( p , att);
 	if ( !p )
 	    dlg.setModal( true );
-	return 0;
+	if (1 == att)
+		return 0;
 	if ( !dlg.go() )
 	{
 	    if ( isconvpending )

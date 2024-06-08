@@ -66,7 +66,7 @@ ________________________________________________________________________
 #include "survinfo.h"
 #include "systeminfo.h"
 #include "trckeyzsampling.h"
-
+#include <qdebug.h>
 
 static const char*	sZipFileMask = "ZIP files (*.zip *.ZIP)";
 #define mErrRetVoid(s)	{ if ( s.isSet() ) uiMSG().error(s); return; }
@@ -452,8 +452,6 @@ uiSurvey::uiSurvey( uiParent* p, int attachment)
         acceptOK(nullptr);
         return;
     }
-    // 打开工区
-
 
     uiGroup* topgrp = new uiGroup( this, "TopGroup" );
     uiPushButton* datarootbut =
@@ -558,26 +556,20 @@ void uiSurvey::fillLeftGroup( uiGroup* grp )
     dirfld_->setHSzPol( uiObject::WideVar );
     dirfld_->setStretch( 2, 2 );
 
-    uiButtonGroup* butgrp =
-	new uiButtonGroup( grp, "Buttons", OD::Vertical );
+    if (2 == attachment_)
+    {
+        qDebug("fillLeftGroup attachment_[%d]", attachment_);
+        return;
+    }
+    uiButtonGroup* butgrp =	new uiButtonGroup( grp, "Buttons", OD::Vertical );
     butgrp->attach( rightTo, dirfld_ );
-    new uiToolButton( butgrp, "addnew", uiStrings::phrCreate(mJoinUiStrs(sNew(),
-				sSurvey())), mCB(this,uiSurvey,newButPushed) );
-    editbut_ = new uiToolButton( butgrp, "edit", tr("Edit Survey Parameters"),
-				 mCB(this,uiSurvey,editButPushed) );
-    new uiToolButton( butgrp, "copyobj",
-	tr("Copy Survey"), mCB(this,uiSurvey,copyButPushed) );
-    new uiToolButton( butgrp, "compress",
-	tr("Compress survey as zip archive"),
-	mCB(this,uiSurvey,exportButPushed) );
-    new uiToolButton( butgrp, "extract",
-	tr("Extract survey from zip archive"),
-	mCB(this,uiSurvey,importButPushed) );
-    new uiToolButton( butgrp, "share",
-	tr("Share surveys through the OpendTect Seismic Repository"),
-	mSCB(osrbuttonCB) );
-    rmbut_ = new uiToolButton( butgrp, "delete", tr("Delete Survey"),
-			       mCB(this,uiSurvey,rmButPushed) );
+    new uiToolButton( butgrp, "addnew", uiStrings::phrCreate(mJoinUiStrs(sNew(), sSurvey())), mCB(this,uiSurvey,newButPushed) );
+    editbut_ = new uiToolButton( butgrp, "edit", tr("Edit Survey Parameters"), mCB(this,uiSurvey,editButPushed) );
+    new uiToolButton( butgrp, "copyobj", tr("Copy Survey"), mCB(this,uiSurvey,copyButPushed) );
+    new uiToolButton( butgrp, "compress", tr("Compress survey as zip archive"),	mCB(this,uiSurvey,exportButPushed) );
+    new uiToolButton( butgrp, "extract", tr("Extract survey from zip archive"),	mCB(this,uiSurvey,importButPushed) );
+    new uiToolButton( butgrp, "share", tr("Share surveys through the OpendTect Seismic Repository"), mSCB(osrbuttonCB) );
+    rmbut_ = new uiToolButton( butgrp, "delete", tr("Delete Survey"),  mCB(this,uiSurvey,rmButPushed) );
 }
 
 
@@ -1339,12 +1331,16 @@ static void sMakeLogParsPretty( IOPar& par, BufferString& txt, bool rmname )
 
 void uiSurvey::putToScreen()
 {
-    if ( !survmap_ ) return;
+    if (!survmap_) return;
 
-    survmap_->setSurveyInfo( cursurvinfo_ );
+    survmap_->setSurveyInfo(cursurvinfo_);
     const bool hassurveys = !dirfld_->isEmpty();
-    rmbut_->setSensitive( hassurveys );
-    editbut_->setSensitive( hassurveys );
+    if (2 != attachment_)
+    {
+        rmbut_->setSensitive(hassurveys);
+        editbut_->setSensitive(hassurveys);
+    }
+
     for ( int idx=0; idx<utilbuts_.size(); idx++ )
 	utilbuts_[idx]->setSensitive( hassurveys );
 

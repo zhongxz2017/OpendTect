@@ -90,6 +90,10 @@ protected:
     IOPar		infopars_;
 
     // ADD by lynn
+    /*
+    1: crete new survey
+    2: open and select a survey
+    */
     int         attachment_;
     // ADD end
 
