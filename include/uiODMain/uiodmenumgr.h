@@ -131,6 +131,17 @@ protected:
     uiMenu*		toolsmnu_;
     uiMenu*		installmnu_;
     uiMenu*		csoitm_;
+
+    // ADD by lynn 20240604
+    uiMenu*     file_mnu_;
+    uiMenu*     view_mnu_;
+    uiMenu*     import_mnu_;
+    uiMenu*     window_mnu_;
+    uiMenu*     tools_mnu_;
+    uiMenu*     help_mnu_;
+
+    // ADD end
+
     uiODLangMenuMgr* langmnumgr_ = nullptr;
     ObjectSet<uiMenu>	impmnus_;
     ObjectSet<uiMenu>	expmnus_;
@@ -157,6 +168,15 @@ protected:
     void		fillDtectTB(uiODApplMgr*);
     void		fillCoinTB(uiODSceneMgr*);
     void		fillManTB();
+
+    // ADD by lynn 20240604
+    void        fillGeoFileMenu();
+    void        fillGeoViewMenu();
+    void        fillGeoImpotMenu();
+    void        fillGeoWindowMenu();
+    void        fillGeoToolsMenu();
+    void        fillGeoHelpMenu();
+    // ADD end
 
     void		selectionMode(CallBacker*);
     void		handleToolClick(CallBacker*);

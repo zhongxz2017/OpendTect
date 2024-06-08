@@ -271,7 +271,7 @@ protected:
     };
 
     MiscSurvInfo		tmpprevsurvinfo_;
-    static int			manSurv(uiParent*);
+    static int			manSurv(uiParent*, int att = 0);
     bool			survChgReqAttrUpdate();
 
     bool			handleEvent(const uiApplPartServer*,int);

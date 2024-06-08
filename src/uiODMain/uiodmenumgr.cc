@@ -73,15 +73,23 @@ uiODMenuMgr::uiODMenuMgr( uiODMain* a )
     uiMenuBar* mb = appl_.menuBar();
     surveymnu_ = mb->addMenu( new uiMenu(uiStrings::sSurvey()) );
     analmnu_ = mb->addMenu( new uiMenu(uiStrings::sAnalysis()) );
-    procmnu_ = mb->addMenu( new uiMenu(uiStrings::sProcessing()) );
     scenemnu_ = mb->addMenu( new uiMenu(uiStrings::sScenes()) );
     viewmnu_ = mb->addMenu( new uiMenu(uiStrings::sView()) );
     utilmnu_ = mb->addMenu( new uiMenu(uiStrings::sUtilities()) );
-    auto* tnmnu = mb->addMenu( new uiMenu(toUiString("TerraNubis")) );
-    helpmnu_ = mb->addMenu( new uiMenu(uiStrings::sHelp()) );
 
-    insertAction( tnmnu, tr("Download Free Projects"), mFreeProjects );
-    insertAction( tnmnu, tr("Download Commercial Projects"), mCommProjects );
+    // ADD by lynn
+    file_mnu_ = mb->addMenu( new uiMenu(toUiString("File")));
+    view_mnu_ = mb->addMenu(new uiMenu(toUiString("View")));
+    import_mnu_ = mb->addMenu(new uiMenu(toUiString("Import")));
+    window_mnu_ = mb->addMenu(new uiMenu(toUiString("Window")));
+    tools_mnu_ = mb->addMenu(new uiMenu(toUiString("Tools")));
+    help_mnu_ = mb->addMenu(new uiMenu(toUiString("Help")));
+    // ADD end
+    procmnu_ = mb->addMenu(new uiMenu(uiStrings::sProcessing()));
+    //auto* tnmnu = mb->addMenu( new uiMenu(toUiString("TerraNubis")) );
+    helpmnu_ = mb->addMenu(new uiMenu(uiStrings::sHelp()));
+    //insertAction( tnmnu, tr("Download Free Projects"), mFreeProjects );
+    //insertAction( tnmnu, tr("Download Commercial Projects"), mCommProjects );
 
     dtecttb_ = new uiToolBar( &appl_, tr("OpendTect Tools"), uiToolBar::Top );
     viewtb_ = new uiToolBar( &appl_, tr("Graphical Tools"), uiToolBar::Left );
@@ -126,6 +134,7 @@ void uiODMenuMgr::initSceneMgrDepObjs( uiODApplMgr* appman,
     fillSceneMenu();
     fillViewMenu();
     fillUtilMenu();
+    fillGeoFileMenu();
     menubar->insertSeparator();
     helpmgr_ = new uiODHelpMenuMgr( this );
     langmnumgr_ = new uiODLangMenuMgr( this );
@@ -823,6 +832,29 @@ void uiODMenuMgr::fillSceneMenu()
     updateSceneMenu();
 }
 
+void uiODMenuMgr::fillGeoFileMenu() {
+    insertAction(file_mnu_, m3Dots(tr("New Project")), mManSurveyMnuItm + 1, "addnew");
+    insertAction(file_mnu_, m3Dots(tr("Open Project")), mManSurveyMnuItm + 2, "survey");
+    insertAction(file_mnu_, m3Dots(tr("Remove Project")), mManSurveyMnuItm + 3, "survey");
+    insertAction(file_mnu_, m3Dots(tr("Save Project")), mManSurveyMnuItm + 4, "survey");
+    insertAction(file_mnu_, m3Dots(tr("Save Project As")), mManSurveyMnuItm + 5, "survey");
+    insertAction(file_mnu_, m3Dots(tr("Close Project")), mManSurveyMnuItm + 6, "survey");
+}
+void uiODMenuMgr::fillGeoViewMenu() {
+
+}
+void uiODMenuMgr::fillGeoImpotMenu() {
+
+}
+void uiODMenuMgr::fillGeoWindowMenu() {
+
+}
+void uiODMenuMgr::fillGeoToolsMenu() {
+
+}
+void uiODMenuMgr::fillGeoHelpMenu() {
+
+}
 
 void uiODMenuMgr::insertNewSceneItem( uiAction* action, int id )
 {
@@ -1413,6 +1445,7 @@ void uiODMenuMgr::handleClick( CallBacker* cb )
     switch( id )
     {
     case mManSurveyMnuItm:		applMgr().selectSurvey(nullptr); break;
+    case mManSurveyMnuItm + 1:  applMgr().CreateNewSurvey(nullptr); break;
     case mSessSaveMnuItm:		appl_.saveSession(); break;
     case mSessRestMnuItm:		appl_.restoreSession(); break;
     case mSessAutoMnuItm:		appl_.autoSession(); break;

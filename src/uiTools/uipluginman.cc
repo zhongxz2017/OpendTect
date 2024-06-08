@@ -30,7 +30,8 @@ ________________________________________________________________________
 #include "plugins.h"
 #include "separstr.h"
 #include "settings.h"
-
+#include "msgh.h"
+#include <qdebug.h>
 #include <iostream>
 
 uiPluginMan::uiPluginMan( uiParent* p )
@@ -372,7 +373,11 @@ static bool doBasicProdSelFn( uiParent* p, bool& skippluginsel, uiRetVal& msgs )
     const FilePath fp( GetLibPlfDir(), libnm );
     if ( !fp.exists() )
     {
+        qDebug("doBasicProdSelFn Cannot load uidGBTools library for PRO not installed");
+        msgs.add(od_static_tr("doBasicProdSelFn",
+            "Cannot load uidGBTools library for PRO not installed"));
 	msgs.setOK(); //PRO not installed
+        UsrMsg("doBasicProdSelFn Cannot load uidGBTools library for PRO not installed");
 	return true;
     }
 

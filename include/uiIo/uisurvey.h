@@ -32,7 +32,7 @@ mExpClass(uiIo) uiSurvey : public uiDialog
 { mODTextTranslationClass(uiSurvey);
 
 public:
-			uiSurvey(uiParent*);
+			uiSurvey(uiParent*, int attachment = 0);
 			~uiSurvey();
 
     static void		getSurveyList(BufferStringSet&,const char* dataroot=0,
@@ -88,6 +88,10 @@ protected:
     uiTextEdit*		infofld_;
     uiTextEdit*		notesfld_;
     IOPar		infopars_;
+
+    // ADD by lynn
+    int         attachment_;
+    // ADD end
 
     bool		parschanged_; //!< of initial survey only
     bool		cursurvremoved_;

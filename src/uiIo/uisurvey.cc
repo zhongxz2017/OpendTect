@@ -405,9 +405,10 @@ void uiStartNewSurveySetup::fillSipsFld( bool have2d, bool have3d )
 
 static HiddenParam<uiSurvey, uiTextEdit*> logflds_( nullptr );
 
-uiSurvey::uiSurvey( uiParent* p )
+uiSurvey::uiSurvey( uiParent* p, int attachment)
     : uiDialog(p,uiDialog::Setup(tr("Survey Setup and Selection"),
 				 mNoDlgTitle,mODHelpKey(mSurveyHelpID)))
+    , attachment_(attachment)
     , orgdataroot_(GetBaseDataDir())
     , dataroot_(GetBaseDataDir())
     , initialsurveyname_(GetSurveyName())
@@ -434,14 +435,25 @@ uiSurvey::uiSurvey( uiParent* p )
 
     setCurrentSurvInfo( new SurveyInfo(SI()) );
 
-    mDefineStaticLocalObject( int, sipidx2d, mUnusedVar =
-	    uiSurveyInfoEditor::addInfoProvider(new ui2DSurvInfoProvider) )
-    mDefineStaticLocalObject( int, sipidxnav, mUnusedVar =
-	    uiSurveyInfoEditor::addInfoProvider(new uiNavSurvInfoProvider) )
-    mDefineStaticLocalObject( int, sipidxcp, mUnusedVar =
-	    uiSurveyInfoEditor::addInfoProvider(new uiCopySurveySIP) )
-    mDefineStaticLocalObject( int, sipidxfile, mUnusedVar =
-	    uiSurveyInfoEditor::addInfoProvider(new uiSurveyFileSIP) )
+    mDefineStaticLocalObject(int, sipidx2d, mUnusedVar =
+    uiSurveyInfoEditor::addInfoProvider(new ui2DSurvInfoProvider))
+    mDefineStaticLocalObject(int, sipidxnav, mUnusedVar =
+        uiSurveyInfoEditor::addInfoProvider(new uiNavSurvInfoProvider))
+    mDefineStaticLocalObject(int, sipidxcp, mUnusedVar =
+        uiSurveyInfoEditor::addInfoProvider(new uiCopySurveySIP))
+    mDefineStaticLocalObject(int, sipidxfile, mUnusedVar =
+        uiSurveyInfoEditor::addInfoProvider(new uiSurveyFileSIP))
+
+    // 新建工区
+    if (1 == attachment_) {
+        dirfld_ = new uiListBox(this, "Surveys");
+
+        newButPushed(nullptr);
+        acceptOK(nullptr);
+        return;
+    }
+    // 打开工区
+
 
     uiGroup* topgrp = new uiGroup( this, "TopGroup" );
     uiPushButton* datarootbut =
@@ -940,8 +952,8 @@ void uiSurvey::newButPushed( CallBacker* )
 	putToScreen();
     }
 
-    rmbut_->setSensitive(true);
-    editbut_->setSensitive(true);
+    //rmbut_->setSensitive(true);
+    //editbut_->setSensitive(true);
     for ( int idx=0; idx<utilbuts_.size(); idx++ )
 	utilbuts_[idx]->setSensitive(true);
 }
@@ -1434,10 +1446,10 @@ void uiSurvey::putToScreen()
 
 bool uiSurvey::writeSurvInfoFileIfCommentChanged()
 {
-    if ( !cursurvinfo_ || !notesfld_->isModified() )
-	return true;
+    //if ( !cursurvinfo_ || !notesfld_->isModified() )
+	//return true;
 
-    cursurvinfo_->setComment( notesfld_->text() );
+    //cursurvinfo_->setComment( notesfld_->text() );
     if ( !cursurvinfo_->write( dataroot_ ) )
 	mErrRet(tr("Failed to write survey info.\nNo changes committed."))
 

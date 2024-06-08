@@ -69,12 +69,12 @@ uiODViewer2DMgr::uiODViewer2DMgr( uiODMain* a )
     , vw2dObjAdded(this)
     , vw2dObjToBeRemoved(this)
 {
-    // for relevant 2D datapack
-    tifs2d_->addFactory( new uiODVW2DWiggleVarAreaTreeItemFactory, 1000 );
-    tifs2d_->addFactory( new uiODVW2DVariableDensityTreeItemFactory, 2000 );
-    tifs2d_->addFactory( new uiODVw2DHor2DTreeItemFactory, 3000 );
-    tifs2d_->addFactory( new uiODVw2DFaultSS2DTreeItemFactory, 4000 );
-    tifs2d_->addFactory( new uiODVw2DPickSetTreeItemFactory, 5000 );
+    // for relevant 相关 2D datapack 数据打包
+    tifs2d_->addFactory( new uiODVW2DWiggleVarAreaTreeItemFactory, 1000 );	// wiggle 扭动 摆动 波浪形线
+    tifs2d_->addFactory( new uiODVW2DVariableDensityTreeItemFactory, 2000 ); // variable density可变密度
+    tifs2d_->addFactory( new uiODVw2DHor2DTreeItemFactory, 3000 );			// hor Horizon 层位
+    tifs2d_->addFactory( new uiODVw2DFaultSS2DTreeItemFactory, 4000 );		// fault stick set 断层 放置
+    tifs2d_->addFactory( new uiODVw2DPickSetTreeItemFactory, 5000 );		// tree-pickset 弹簧？
 
     // for relevant 3D datapack
     tifs3d_->addFactory( new uiODVW2DWiggleVarAreaTreeItemFactory, 1500 );

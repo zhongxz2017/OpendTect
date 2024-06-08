@@ -14,6 +14,8 @@ ________________________________________________________________________
 #include "uimainwin.h"
 #include "multiid.h"
 
+#include <qdebug.h>
+
 class CtxtIOObj;
 class IOObj;
 class ODSession;
@@ -107,6 +109,7 @@ protected:
     bool		restoringsess_;
     bool		restarting_;
     BufferString	programname_;
+    BufferString    m_specify_version;
 
     MultiID		cursessid_;
     bool		failed_;

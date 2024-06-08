@@ -302,7 +302,7 @@ bool uiODApplMgr::Convert_OD4_Body_To_OD5()
 
 int uiODApplMgr::CreateNewSurvey( uiParent* p )
 {
-	const int res = manSurv(p);
+	const int res = manSurv(p, 1);
 
 	if (res == 3)
 		setZStretch();
@@ -319,16 +319,17 @@ int uiODApplMgr::selectSurvey( uiParent* p )
 }
 
 
-int uiODApplMgr::manSurv( uiParent* p )
+int uiODApplMgr::manSurv( uiParent* p, int att)
 {
     BufferString prevnm = GetDataDir();
     bool isconvpending = OD_Get_2D_Data_Conversion_Status()==1;
     if ( !p ) p = ODMainWin();
     while ( true )
     {
-	uiSurvey dlg( p );
+	uiSurvey dlg( p , att);
 	if ( !p )
 	    dlg.setModal( true );
+	return 0;
 	if ( !dlg.go() )
 	{
 	    if ( isconvpending )
