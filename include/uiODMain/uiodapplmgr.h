@@ -86,6 +86,7 @@ public:
 
     // ADD by lynn
     int CreateNewSurvey(uiParent*);
+    int OpenNewSurvey(uiParent*);
     // ADD end
     // Survey menu operations
     int				selectSurvey(uiParent*);

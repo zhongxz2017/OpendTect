@@ -1446,6 +1446,7 @@ void uiODMenuMgr::handleClick( CallBacker* cb )
     {
     case mManSurveyMnuItm:		applMgr().selectSurvey(nullptr); break;
     case mManSurveyMnuItm + 1:  applMgr().CreateNewSurvey(nullptr); break;
+    case mManSurveyMnuItm + 2:  applMgr().OpenNewSurvey(nullptr); break;
     case mSessSaveMnuItm:		appl_.saveSession(); break;
     case mSessRestMnuItm:		appl_.restoreSession(); break;
     case mSessAutoMnuItm:		appl_.autoSession(); break;

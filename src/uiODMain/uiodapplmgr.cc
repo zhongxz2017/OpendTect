@@ -304,11 +304,19 @@ int uiODApplMgr::CreateNewSurvey( uiParent* p )
 {
 	const int res = manSurv(p, 1);
 
-	if (res == 3)
+	//if (res == 3)
 		setZStretch();
 	return res;
 }
 
+int uiODApplMgr::OpenNewSurvey(uiParent* p )
+{
+	const int res = manSurv(p, 2);
+
+	if (res == 3)
+		setZStretch();
+	return res;
+}
 
 int uiODApplMgr::selectSurvey( uiParent* p )
 {
